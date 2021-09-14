@@ -1,13 +1,23 @@
 " " 开了这个很卡
 " autocmd BufWritePost $MYVIMRC source $MYVIMRC
-
+set nobackup
+set nowb
+set noswapfile
 noremap <Down> <Nop>
 noremap <Up> <Nop>
 noremap <Left> <Nop>
 noremap <Right> <Nop>
+" 跳转至右方的窗口
+nnoremap <c-l> <C-W>l
+" 跳转至左方的窗口
+nnoremap <c-h> <C-W>h
+" 跳转至上方的子窗口
+nnoremap <c-k> <C-W>k
+" 跳转至下方的子窗口
+nnoremap <c-j> <C-W>j
 map <F2> :NERDTreeToggle<CR>
-nnoremap <C-t> :NERDTreeToggle<CR>
-map <F3> :TlistToggle<CR>
+nmap <F3> :TagbarToggle<CR>
+noremap <C-t> :NERDTreeToggle<CR>
 " 设置快捷键将选中文本块复制至系统剪贴板
 vnoremap <Leader>y "+y
 " 设置快捷键将系统剪贴板内容粘贴至vim
@@ -22,7 +32,8 @@ map / /\v
 
 
 " set nowrap          " 禁止折行"
-set shell=bash\ -i  " 打开md预览需要"
+set scrolloff=3     " 光标距离上下行距离"
+"set shell=bash\ -i  " 打开md预览需要"
 set incsearch       " 开启实时搜索功能
 set ignorecase      " 搜索时大小写不敏感
 set smartcase
@@ -40,7 +51,9 @@ set expandtab       " 将制表符扩展为空格
 set tabstop=4       " 设置编辑时制表符占用空格数    
 set shiftwidth=4    " 设置格式化时制表符占用空格数
 set softtabstop=4   " 让 vim 把连续数量的空格视为一个制表符
-set history=200
+set history=1000
+set autochdir
+set wildignore=*.o,*~,*.pyc  " Ignore compiled files
 " set guifont=YaHei-Consolas-Hybrid:h20   " 设置 gvim 显示字体
 syntax enable       " 开启语法高亮功能
 syntax on           " 允许用指定语法高亮配色方案替换默认方案
@@ -49,6 +62,12 @@ filetype indent on  " 自适应不同语言的智能缩进
 
 filetype on         " 开启文件类型侦测
 filetype plugin on  " 根据侦测到的不同类型加载对应的插件
+
+
+" 关闭备份
+set nobackup
+set nowb
+set noswapfile
 
 set fileencodings=utf-8,ucs-bom,gb18030,gbk,gb2312,cp936
 set termencoding=utf-8
@@ -70,7 +89,7 @@ nmap ga <Plug>(EasyAlign)
 let g:indent_guides_enable_on_vim_startup = 0
 
 " ultisnips 键入class接Tab补全类，后两个切换可视区域
-let g:UltiSnipsExpandTrigger="<c-y>"
+let g:UltiSnipsExpandTrigger="<c-c>"
 let g:UltiSnipsJumpForwardTrigger="<c-b>"
 let g:UltiSnipsJumpBackwardTrigger="<c-z>"
 
@@ -81,22 +100,19 @@ map <Leader> <Plug>(easymotion-prefix)
 " Exit Vim if NERDTree is the only window remaining in the only tab.
 autocmd BufEnter * if tabpagenr('$') == 1 && winnr('$') == 1 && exists('b:NERDTree') && b:NERDTree.isTabTree() | quit | endif
 " nerdtree 窗口宽度
+" 打开nerdtree之后ma新建文件
 let g:NERDTreeWinSize=25
 
 " 设置normal模式切换到的输入法
 let g:smartim_default = 'com.apple.keylayout.ABC'
 
 
-"taglist{{
-map <F3> :TlistToggle<CR>
-let Tlist_Use_Right_Window=1        "在右侧窗口显示taglist
-let Tlist_Show_One_File=1           "只显示当前文件的taglist，默认多个
-let Tlist_Exit_OnlyWindow=1         "如果taglist是最后一个窗口，则退出vim
-let Tlist_WinWidt=25                "窗口宽度
-let TList_Gainfocus_On_ToggleOpen=1 "打开taglist之后获取光标
-"}}
 "
-" 关闭启动vim之后YouCompleteMe的提醒
+" YouCompleteMe
+set runtimepath+=~/.vim/plugged/YouCompleteMe
+autocmd InsertLeave * if pumvisible() == 0|pclose|endif "离开插入模式后自动关闭预览窗口"
+let g:ycm_collect_identifiers_from_tags_files = 1     " 开启 YCM基于标签引擎
+" 关闭启动vim之后youcompleteme的提醒
 let g:ycm_confirm_extra_conf = 0
 " 关闭ycm自动弹出函数原型预览窗口
 set completeopt=menu,menuone
@@ -108,6 +124,20 @@ let g:ycm_semantic_triggers =  {
 			\ }
 
 let g:pymode_python='python3'
+
+" 随 vim 自启动
+let g:indent_guides_enable_on_vim_startup=1
+" 从第二层开始可视化显示缩进
+let g:indent_guides_start_level=2
+" 色块宽度
+let g:indent_guides_guide_size=1
+" 快捷键 i 开/关缩进可视化
+:nmap <silent> <Leader>i <Plug>IndentGuidesToggle
+
+ let g:tagbar_width = 25                 "设置tagbar的宽度为30列，默认40
+ let g:tagbar_autofocus = 1             " 
+ let g:tagbar_sort = 0                     "设置标签不排序，默认排序
+
 
 " table mode拐角处
 " let g:table_mode_corner_corner='+'
@@ -162,8 +192,8 @@ Plug 'tpope/vim-unimpaired'
 Plug 'tpope/vim-abolish'
 
 " 检查语法
-" Plug 'dense-analysis/ale'
-Plug 'vim-syntastic/syntastic'
+Plug 'dense-analysis/ale'
+" Plug 'vim-syntastic/syntastic'
 " gc操作符，注释命令P24"
 Plug 'tpope/vim-commentary'
 " 添加了两个文本对象，ie，ae，作用于整个文件,两个插件一起才可以"
@@ -173,7 +203,7 @@ Plug 'kana/vim-textobj-user'
 " 相对行号
 Plug 'myusuf3/numbers.vim'
 " 浏览代码的结构
-Plug 'vim-scripts/taglist.vim'
+Plug 'preservim/tagbar'
 " 运行python <leader>r
 Plug 'python-mode/python-mode', { 'for': 'python', 'branch': 'develop' }
 " auto pairs
@@ -220,3 +250,12 @@ set guioptions-=L
 set guioptions-=r
 set guioptions-=R
 set gcr=i-ci:ver16-Cursor/lCursor,n-v-c:block-blinkon0   " 改变光标宽度，百分比"
+
+
+map <F5> :call CompileRunGcc()<CR>
+func! CompileRunGcc()
+	exec "w"
+	if &filetype == 'c'
+		exec "!g++ % -o %<"
+	endif
+endfunc
