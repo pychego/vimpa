@@ -235,6 +235,7 @@ set background=dark
 let g:airline_theme='deus'
 
 set guifont=DroidSansMono:h20   " 设置 gvim 显示字体
+" set guifont=IBMPlexMono-Light:h20   " 设置 gvim 显示字体
 
 
 " hi Normal guibg=#282828         " 背景颜色"
