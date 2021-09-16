@@ -111,6 +111,9 @@ let g:smartim_default = 'com.apple.keylayout.ABC'
 " YouCompleteMe
 set runtimepath+=~/.vim/plugged/YouCompleteMe
 autocmd InsertLeave * if pumvisible() == 0|pclose|endif "离开插入模式后自动关闭预览窗口"
+"disable 禁用ycm 语法检查
+let g:ycm_enable_diagnostic_signs = 0
+let g:ycm_enable_diagnostic_highlighting = 0
 let g:ycm_collect_identifiers_from_tags_files = 1     " 开启 YCM基于标签引擎
 " 关闭启动vim之后youcompleteme的提醒
 let g:ycm_confirm_extra_conf = 0
