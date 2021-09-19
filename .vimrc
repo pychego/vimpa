@@ -1,5 +1,27 @@
+" compile and run C
+autocmd FileType c nnoremap <leader>r :call CompileAndRun()<CR>
+" nnoremap <F5> :call CompileAndRun()<CR>
+function! CompileAndRun()
+    "  save all changes
+    exec "wa"
+    if &filetype == 'c'
+        exec "AsyncRun! gcc  % -o %<;  ./%<"        
+        " exec "AsyncRun! gcc  % -o %<; time ./%<"  " show time"
+    endif
+endfunction
+" autoatically open quickfix list
+let g:asyncrun_open=6
+
+
 " " 开了这个很卡
 " autocmd BufWritePost $MYVIMRC source $MYVIMRC
+
+" python auto format  <leader> =
+autocmd FileType python nnoremap <leader>= :0,$!yapf<CR>
+" python auto isort 'import'
+autocmd FileType python nnoremap <leader>i :!isort %<CR><CR>
+hi pythonSelf            ctermfg=174 guifg=#6094DB cterm=bold gui=bold
+
 set nobackup
 set nowb
 set noswapfile
@@ -19,11 +41,12 @@ map <F2> :NERDTreeToggle<CR>
 nmap <F3> :TagbarToggle<CR>
 noremap <C-t> :NERDTreeToggle<CR>
 " 设置快捷键将选中文本块复制至系统剪贴板
-vnoremap <Leader>y "+y
+vnoremap <leader>y "+y
 " 设置快捷键将系统剪贴板内容粘贴至vim
-nmap <Leader>p "+p
+nnoremap <leader>p "+p
 let mapleader = ','
-noremap \ ,
+" 将反向查找字符键改了
+noremap \ ,     
 
 map / /\v
 
@@ -51,6 +74,7 @@ set expandtab       " 将制表符扩展为空格
 set tabstop=4       " 设置编辑时制表符占用空格数    
 set shiftwidth=4    " 设置格式化时制表符占用空格数
 set softtabstop=4   " 让 vim 把连续数量的空格视为一个制表符
+set foldmethod=indent "根据缩进折叠"
 set history=1000
 set autochdir
 set wildignore=*.o,*~,*.pyc  " Ignore compiled files
@@ -147,6 +171,10 @@ let g:indent_guides_guide_size=1
 " <leader>tm 进入table mode, <leader>tt 将csv转换为table 
 " 注意要用英文输入法输入|, 在分隔行键入两个:居中对齐
 
+" 开启括号颜色匹配
+let g:rainbow_active = 1
+
+
 " - Avoid using standard Vim directory names like 'plugin'
 "激活自带插件"
 set nocompatible
@@ -217,31 +245,60 @@ Plug 'dhruvasagar/vim-table-mode'
 " 自动切换输入法
 Plug 'ybian/smartim'
 Plug 'kien/ctrlp.vim'
+" add 'zo' to open fold, 'zc' to close fold
+Plug 'tmhedberg/SimpylFold'
+" color parentthese
+Plug 'frazrepo/vim-rainbow'
+" asyncrun 
+Plug 'skywind3000/asyncrun.vim'
+
+
+
 
 
 
 " 主题插件
 Plug 'joshdick/onedark.vim'
 Plug 'morhetz/gruvbox'
+Plug 'tomasr/molokai'
+Plug 'tyrannicaltoucan/vim-quantum'
+Plug 'rakr/vim-one'
+Plug 'liuchengxu/space-vim-dark'
 
-
+"
 " Initialize plugin system
 call plug#end()
 
 " =======================颜色字体主题======================“
 " 高亮颜色必须在主题插件之后加载
 syntax enable
-colorscheme onedark
+colorscheme one
+" colorscheme space-vim-dark
+" colorscheme quantum
+" colorscheme onedark
+" colorscheme gruvbox
 set background=dark
 
 " 状态栏主题 
-let g:airline_theme='deus'
+" let g:airline_theme='deus'
+let g:airline_theme='one'
 
-set guifont=DroidSansMono:h20   " 设置 gvim 显示字体
-" set guifont=IBMPlexMono-Light:h20   " 设置 gvim 显示字体
+" show upper status bar
+let g:airline#extensions#tabline#enabled = 1
+let g:airline#extensions#tabline#formatter = 'unique_tail'
 
 
-" hi Normal guibg=#282828         " 背景颜色"
+set macligatures
+" set guifont=Fira_Code:h20
+set guifont=CamingoCode:h22
+
+set guifont=SourceCodePro-It:h20
+" set guifont=CamingoCode_Italic:h22
+" set guifont=DroidSansMono:h20   " 设置 gvim 显示字体
+" set guifont=Menlo:h20   " 设置 gvim 显示字体
+
+
+" hi Normal guibg=#282828        " 背景颜色"
 " " 搜索高亮颜色
 hi Search term=reverse guifg=#afd7ff guibg=#5C6370 
 " " guifg 修改字符颜色
@@ -256,10 +313,3 @@ set guioptions-=R
 set gcr=i-ci:ver16-Cursor/lCursor,n-v-c:block-blinkon0   " 改变光标宽度，百分比"
 
 
-map <F5> :call CompileRunGcc()<CR>
-func! CompileRunGcc()
-	exec "w"
-	if &filetype == 'c'
-		exec "!g++ % -o %<"
-	endif
-endfunc

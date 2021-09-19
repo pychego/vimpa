@@ -19,4 +19,15 @@
 
 空格对齐相似，csv对齐多个一个`,`也对齐，`gaip<Right>*,`
 
+### multiple-cursor
 
+`<c-N>`         begin to multiple-cursor-mode
+
+`n`or`N`        change next or previous word
+
+`q`             skip current and get next occurrence
+
+`Q`             remove current cursor
+
+`a`,`A`,`i`,`I` can use as usual. At this mode, cursor can
+control many word.
