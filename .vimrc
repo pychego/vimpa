@@ -1,3 +1,8 @@
+" " 开了这个很卡
+" autocmd BufWritePost $MYVIMRC source $MYVIMRC
+
+
+" ======================================= C make
 " compile and run C
 autocmd FileType c nnoremap <leader>r :call CompileAndRun()<CR>
 " nnoremap <F5> :call CompileAndRun()<CR>
@@ -5,22 +10,30 @@ function! CompileAndRun()
     "  save all changes
     exec "wa"
     if &filetype == 'c'
-        exec "AsyncRun! gcc  % -o %<;  ./%<"        
+        exec "AsyncRun! gcc  % -o %< -lm;  ./%<"        
+        " exec "AsyncRun! clang % ;  ./%<"        
         " exec "AsyncRun! gcc  % -o %<; time ./%<"  " show time"
     endif
 endfunction
 " autoatically open quickfix list
 let g:asyncrun_open=6
 
+" Prohibited in  User home directory execution
+nnoremap <silent> <F5> :!ctags -R<CR>
 
-" " 开了这个很卡
-" autocmd BufWritePost $MYVIMRC source $MYVIMRC
 
-" python auto format  <leader> =
+" ======================================= python make
+ " python auto format  <leader> =
 autocmd FileType python nnoremap <leader>= :0,$!yapf<CR>
 " python auto isort 'import'
 autocmd FileType python nnoremap <leader>i :!isort %<CR><CR>
 hi pythonSelf            ctermfg=174 guifg=#6094DB cterm=bold gui=bold
+
+
+
+
+
+
 
 set nobackup
 set nowb

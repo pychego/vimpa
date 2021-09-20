@@ -32,7 +32,7 @@ zinit ice wait"2" lucid
 zinit snippet OMZ::lib/key-bindings.zsh
 zinit ice wait"2" lucid
 zinit snippet OMZ::lib/theme-and-appearance.zsh
-
+# 还有一个cd补全插件 incr
 
 
 # svn 修饰词，表示下一行的 URI 需要使用 SVN 协议加载。此时 zinit 会使用 SVN 协议下载整个目录，自动识别并加载需要的文件。
@@ -204,3 +204,4 @@ unset __conda_setup
 
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+export PATH="/opt/homebrew/opt/llvm/bin:$PATH"
