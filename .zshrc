@@ -149,6 +149,7 @@ source $ZSH/oh-my-zsh.sh
 #
 alias cls='clear'
 alias ll='ls -l'
+alias lla='ls -al'
 alias la='ls -a'
 alias vi='vim'
 alias javac='javac -J-Dfile.encoding=utf-8'

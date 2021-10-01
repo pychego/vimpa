@@ -1,7 +1,6 @@
 " " 开了这个很卡
 " autocmd BufWritePost $MYVIMRC source $MYVIMRC
 
-
 " ======================================= C make
 " compile and run C
 autocmd FileType c nnoremap <leader>r :call CompileAndRun()<CR>
@@ -50,6 +49,7 @@ nnoremap <c-h> <C-W>h
 nnoremap <c-k> <C-W>k
 " 跳转至下方的子窗口
 nnoremap <c-j> <C-W>j
+nnoremap <c-o> <C-W>o
 map <F2> :NERDTreeToggle<CR>
 nmap <F3> :TagbarToggle<CR>
 noremap <C-t> :NERDTreeToggle<CR>
@@ -68,7 +68,12 @@ map / /\v
 
 
 " set nowrap          " 禁止折行"
-set scrolloff=3     " 光标距离上下行距离"
+set nobackup         "" 表示不需要备份文件
+set noswapfile          "" 表示不创建临时交换文件
+set nowritebackup       "" 表示编辑的时候不需要备份文件
+set noundofile          "" 表示不创建撤销文件
+" 关闭此选项，适应H M L
+" set scrolloff=3     " 光标距离上下行距离"
 "set shell=bash\ -i  " 打开md预览需要"
 set incsearch       " 开启实时搜索功能
 set ignorecase      " 搜索时大小写不敏感
@@ -255,7 +260,7 @@ Plug 'jiangmiao/auto-pairs'
 
 " md创建表格, <leader>tm进入表格模式
 Plug 'dhruvasagar/vim-table-mode' 
-" 自动切换输入法
+" 自动切换输入法，两个一起用
 Plug 'ybian/smartim'
 Plug 'kien/ctrlp.vim'
 " add 'zo' to open fold, 'zc' to close fold
@@ -264,6 +269,8 @@ Plug 'tmhedberg/SimpylFold'
 Plug 'frazrepo/vim-rainbow'
 " asyncrun 
 Plug 'skywind3000/asyncrun.vim'
+" add support . will work with ds, cs, ys, yss
+Plug 'tpope/vim-repeat'
 
 
 

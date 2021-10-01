@@ -31,3 +31,31 @@
 
 `a`,`A`,`i`,`I` can use as usual. At this mode, cursor can
 control many word.
+
+### vim-surround
+
+`"Hello world!" `变成`'Hello world!'`:     `cs"'` ，光标只需在句子里面即可
+
+```html
+<q>Hello world!</q>    # 按 cs'<q>
+```
+
+删除单引号：`ds'`
+
+#### 添加新环绕
+
+1. 可视模式，选中之后，`S'`
+
+2. - 普通模式，动作命令 `ys`, `ysiw'`,在当前单词加引号
+   - `yss'` 在当前句子家环绕，这个很强大
+
+和vim-repeat一起用，很强大
+
+
+
+
+
+
+
+
+
