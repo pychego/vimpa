@@ -27,6 +27,7 @@ autocmd FileType python nnoremap <leader>= :0,$!yapf<CR>
 " python auto isort 'import'
 autocmd FileType python nnoremap <leader>i :!isort %<CR><CR>
 hi pythonSelf            ctermfg=174 guifg=#6094DB cterm=bold gui=bold
+" let g:indentLine_enabled = 0    "禁用缩进线"
 
 
 
@@ -37,6 +38,8 @@ hi pythonSelf            ctermfg=174 guifg=#6094DB cterm=bold gui=bold
 set nobackup
 set nowb
 set noswapfile
+set helplang=cn    " 使用中文帮助文档"
+nnoremap <space> za    " Enable folding with the spacebar"
 noremap <Down> <Nop>
 noremap <Up> <Nop>
 noremap <Left> <Nop>
@@ -67,7 +70,7 @@ map / /\v
 
 
 
-" set nowrap          " 禁止折行"
+set nowrap          " 禁止折行"
 set nobackup         "" 表示不需要备份文件
 set noswapfile          "" 表示不创建临时交换文件
 set nowritebackup       "" 表示编辑的时候不需要备份文件
@@ -95,10 +98,13 @@ set softtabstop=4   " 让 vim 把连续数量的空格视为一个制表符
 set foldmethod=indent "根据缩进折叠"
 set history=1000
 set autochdir
+set autowrite
+set autoread
 set wildignore=*.o,*~,*.pyc  " Ignore compiled files
 " set guifont=YaHei-Consolas-Hybrid:h20   " 设置 gvim 显示字体
 syntax enable       " 开启语法高亮功能
 syntax on           " 允许用指定语法高亮配色方案替换默认方案
+set autochdir       " 自动设置当前编辑文件的路径为工作路径"
 
 filetype indent on  " 自适应不同语言的智能缩进
 
@@ -128,7 +134,7 @@ xmap ga <Plug>(EasyAlign)
 nmap ga <Plug>(EasyAlign)
 
 " 默认显示缩进线
-let g:indent_guides_enable_on_vim_startup = 0
+" let g:indent_guides_enable_on_vim_startup = 0
 
 " ultisnips 键入class接Tab补全类，后两个切换可视区域
 let g:UltiSnipsExpandTrigger="<c-c>"
@@ -168,10 +174,15 @@ let g:ycm_semantic_triggers =  {
 			\ 'cs,lua,javascript': ['re!\w{2}'],
 			\ }
 
+" pymode 设置块 Search in python documentation (``K``)
 let g:pymode_python='python3'
+" Trim unused white spaces on save. 
+let g:pymode_trim_whitespaces = 1
+let g:pymode_lint_ignore = ["E501", "F403","W401", "E1101"]
+
 
 " 随 vim 自启动
-let g:indent_guides_enable_on_vim_startup=1
+let g:indent_guides_enable_on_vim_startup=0
 " 从第二层开始可视化显示缩进
 let g:indent_guides_start_level=2
 " 色块宽度
@@ -182,6 +193,14 @@ let g:indent_guides_guide_size=1
  let g:tagbar_width = 25                 "设置tagbar的宽度为30列，默认40
  let g:tagbar_autofocus = 1             " 
  let g:tagbar_sort = 0                     "设置标签不排序，默认排序
+
+
+let g:ale_lint_on_enter = 0                 "打开文件不检查"
+let g:ale_sign_error = '.'
+let g:ale_sign_warning = '.'
+nmap <silent> [j <Plug>(ale_previous_wrap)
+nmap <silent> ]j <Plug>(ale_next_wrap)
+" let g:ale_set_highlights = 0       " 禁止高亮错误信息"
 
 
 " table mode拐角处
@@ -271,6 +290,10 @@ Plug 'frazrepo/vim-rainbow'
 Plug 'skywind3000/asyncrun.vim'
 " add support . will work with ds, cs, ys, yss
 Plug 'tpope/vim-repeat'
+" python缩进线
+Plug 'Yggdroot/indentLine'
+" python格式化
+Plug 'tell-k/vim-autopep8'
 
 
 
@@ -331,5 +354,4 @@ set guioptions-=L
 set guioptions-=r
 set guioptions-=R
 set gcr=i-ci:ver16-Cursor/lCursor,n-v-c:block-blinkon0   " 改变光标宽度，百分比"
-
 
