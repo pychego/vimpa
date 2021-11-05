@@ -1,4 +1,5 @@
 " " 开了这个很卡
+" source $MYVIMRC    ex模式命令，重新加载vimrc文件
 " autocmd BufWritePost $MYVIMRC source $MYVIMRC
 
 " ======================================= C make
@@ -18,12 +19,12 @@ endfunction
 let g:asyncrun_open=6
 
 " Prohibited in  User home directory execution
-nnoremap <silent> <F5> :!ctags -R<CR>
+" nnoremap <silent> <F5> :!ctags -R<CR>
 
 
 " ======================================= python make
  " python auto format  <leader> =
-autocmd FileType python nnoremap <leader>= :0,$!yapf<CR>
+" autocmd FileType python nnoremap <leader>= :0,$!yapf<CR>
 " python auto isort 'import'
 autocmd FileType python nnoremap <leader>i :!isort %<CR><CR>
 hi pythonSelf            ctermfg=174 guifg=#6094DB cterm=bold gui=bold
@@ -39,6 +40,19 @@ set nobackup
 set nowb
 set noswapfile
 set helplang=cn    " 使用中文帮助文档"
+
+
+let mapleader = ','
+nnoremap <leader>= :Autoformat<CR>
+" 跳转到定义
+noremap <leader>] :YcmCompleter GoTo<cr>
+
+" 设置快捷键将选中文本块复制至系统剪贴板
+vnoremap <leader>y "+y
+" 设置快捷键将系统剪贴板内容粘贴至vim
+nnoremap <leader>p "+p
+" 将反向查找字符键改了
+noremap \ ,     
 nnoremap <space> za    " Enable folding with the spacebar"
 noremap <Down> <Nop>
 noremap <Up> <Nop>
@@ -55,14 +69,9 @@ nnoremap <c-j> <C-W>j
 nnoremap <c-o> <C-W>o
 map <F2> :NERDTreeToggle<CR>
 nmap <F3> :TagbarToggle<CR>
+map <F5> :GundoToggle<CR>
 noremap <C-t> :NERDTreeToggle<CR>
-" 设置快捷键将选中文本块复制至系统剪贴板
-vnoremap <leader>y "+y
-" 设置快捷键将系统剪贴板内容粘贴至vim
-nnoremap <leader>p "+p
-let mapleader = ','
-" 将反向查找字符键改了
-noremap \ ,     
+" 格式化文件
 
 map / /\v
 
@@ -117,6 +126,8 @@ set nobackup
 set nowb
 set noswapfile
 
+set noundofile
+set undodir="$HOME/.vim/undodir"
 set fileencodings=utf-8,ucs-bom,gb18030,gbk,gb2312,cp936
 set termencoding=utf-8
 set encoding=utf-8
@@ -179,6 +190,9 @@ let g:pymode_python='python3'
 " Trim unused white spaces on save. 
 let g:pymode_trim_whitespaces = 1
 let g:pymode_lint_ignore = ["E501", "F403","W401", "E1101"]
+" let g:pymode_virtualenv = 1
+" 设置其他的python解释器，很有用
+let g:pymode_virtualenv_path = '/Users/chegopy/miniforge3/envs/python3'
 
 
 " 随 vim 自启动
@@ -198,11 +212,15 @@ let g:indent_guides_guide_size=1
 let g:ale_lint_on_enter = 0                 "打开文件不检查"
 let g:ale_sign_error = '.'
 let g:ale_sign_warning = '.'
+let g:ale_lint_on_save = 0   " 禁止保存文件时检查错误，恼人"
+let g:ale_python_mypy_ignore_invalid_syntax = 0 
+let g:ale_lint_on_insert_leave = 1  " 禁止离开插入魔术检查"
+let g:ale_list_window_size = 0    " 不要弹出列表"
 nmap <silent> [j <Plug>(ale_previous_wrap)
 nmap <silent> ]j <Plug>(ale_next_wrap)
 " let g:ale_set_highlights = 0       " 禁止高亮错误信息"
-
-
+"
+"
 " table mode拐角处
 " let g:table_mode_corner_corner='+'
 " <leader>tm 进入table mode, <leader>tt 将csv转换为table 
@@ -210,6 +228,16 @@ nmap <silent> ]j <Plug>(ale_next_wrap)
 
 " 开启括号颜色匹配
 let g:rainbow_active = 1
+
+
+let g:auto_save = 1  " enable AutoSave on Vim startup
+let g:auto_save_silent = 1  " do not display the auto-save notification
+
+
+
+let g:gundo_prefer_python3 = 1
+
+
 
 
 " - Avoid using standard Vim directory names like 'plugin'
@@ -281,6 +309,7 @@ Plug 'jiangmiao/auto-pairs'
 Plug 'dhruvasagar/vim-table-mode' 
 " 自动切换输入法，两个一起用
 Plug 'ybian/smartim'
+" 模糊补全，ctrl+p调出，ctrl+k,ctrl+j上下遍历列表
 Plug 'kien/ctrlp.vim'
 " add 'zo' to open fold, 'zc' to close fold
 Plug 'tmhedberg/SimpylFold'
@@ -293,13 +322,21 @@ Plug 'tpope/vim-repeat'
 " python缩进线
 Plug 'Yggdroot/indentLine'
 " python格式化
-Plug 'tell-k/vim-autopep8'
+Plug 'vim-autoformat/vim-autoformat'
+" debuger
+Plug 'puremourning/vimspector'
+" Plug '907th/vim-auto-save'
+" 增强nerdtree功能
+Plug 'tpope/vim-vinegar'
+" 撤销树
+Plug 'sjl/gundo.vim'
+" git结合vim
+Plug 'tpope/vim-fugitive'
 
 
 
 
-
-
+"
 " 主题插件
 Plug 'joshdick/onedark.vim'
 Plug 'morhetz/gruvbox'
